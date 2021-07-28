@@ -1,0 +1,65 @@
+﻿@{ ViewData["Title"] = "Home Page"; }
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+
+<a asp-controller="Director" asp-action="Index">Back</a>
+
+<div class="container">
+    <table class="table table-bordered">
+
+        <tr>
+            <td>Director Name</td>
+            <td>@Html.TextBox("directorName")</td>
+        </tr>
+      
+        <tr>
+            <td colspan="2">
+
+                <button class="btn btn-danger" id="btndelete">Delete</button>
+
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <span class="text-info"></span>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        Get API Data
+    </div>
+    <div class="panel-body">
+        <table class="table table-bordered" id="Table">
+            <tr>
+                <th>DirectorName</th>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $('#btndelete').click(() => {
+        let Name = $('#directorName').val();
+
+        $.ajax({
+            type: "DELETE",
+            url: "https://localhost:44360/api/Director/" + Name,
+            contentType: 'application/json',
+            success: function (response) {
+                console.log(response)
+                window.location="Index";
+            },
+            error: function (err) {
+                console.log(err.responseText)
+                $('span').html(err.responseText);
+            }
+        })
+    })
+</script>
+

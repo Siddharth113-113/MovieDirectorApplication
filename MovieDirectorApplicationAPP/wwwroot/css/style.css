@@ -1,0 +1,126 @@
+﻿a{
+    color:brown;
+
+}
+a:link {
+    color: #FF0000;
+}
+
+    
+a:visited {
+    color: #00FF00;
+}
+
+a:active {
+    color: #0000FF;
+}
+
+a:hover{
+    color:forestgreen;
+    text-decoration:none;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+}
+
+body {
+    margin: 0 auto;
+    width: 100%;
+}
+
+.silder {
+    overflow: hidden;
+    height: 500px;
+}
+
+    .silder figure div {
+        float: left;
+        width: 20%;
+    }
+
+    .silder figure img {
+        width: 100%;
+        float: left;
+        margin-bottom:50px;
+    }
+
+    .silder figure {
+        position: relative;
+        width: 500%;
+        margin: 0px;
+        left: 0;
+        animation: 20s Anim infinite;
+    }
+
+@keyframes Anim {
+    0% {
+        left: 0%;
+    }
+
+    10% {
+        left: 0%;
+    }
+
+    12% {
+        left: -100%
+    }
+
+    22% {
+        left: -100%
+    }
+
+    24% {
+        left: -200%
+    }
+
+    34% {
+        left: -200%
+    }
+
+    36% {
+        left: -300%
+    }
+
+    46% {
+        left: -300%
+    }
+
+    48% {
+        left: -400%
+    }
+
+    58% {
+        left: -400%
+    }
+
+    60% {
+        left: -300%
+    }
+
+    70% {
+        left: -300%
+    }
+
+    72% {
+        left: -200%
+    }
+
+    82% {
+        left: -200%
+    }
+
+    84% {
+        left: -100%
+    }
+
+    94% {
+        left: -100%
+    }
+
+    96% {
+        left: 0%
+    }
+}

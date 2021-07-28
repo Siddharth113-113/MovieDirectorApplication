@@ -1,0 +1,94 @@
+﻿@{ ViewData["Title"] = "Home Page"; }
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+<a asp-controller="Director" asp-action="Index">Back</a>
+
+<div class="container">
+    <table class="table table-bordered">
+
+        <tr>
+            <td>Director Name</td>
+            <td>@Html.TextBox("directorName")</td>
+        </tr>
+        <tr>
+            <td>Age</td>
+            <td>@Html.TextBox("age")</td>
+        </tr>
+        
+        <tr>
+            <td>Awards</td>
+            <td>@Html.TextBox("awardCount")</td>
+        </tr>
+       
+
+        <tr>
+            <td colspan="2">
+
+                <button class="btn btn-danger" id="btnedit">Update</button>
+                <button class="btn btn-danger" id="btnsearch">Search</button>
+
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <span class="text-info"></span>
+            </td>
+        </tr>
+    </table>
+</div>
+
+
+
+<script type="text/javascript">
+
+    $('#btnedit').click(() => {
+        let DirectorName = $('#directorName').val();
+        let Age = $('#age').val();
+        let Awards = $('#awardCount').val();
+        let item = { directorName: DirectorName, age: Age, awardCount: Awards };
+
+        console.log(item)
+
+        $.ajax({
+            type: "PUT",
+            url: "https://localhost:44360/api/Director/" + DirectorName,
+            data: JSON.stringify(item),
+            contentType: 'application/json',
+            success: function (response) {
+                alert("Director Details Updated Successfully")
+                //  $('span').html(response);
+                window.location="Index";
+            },
+            error: function (err) {
+                alert(err.responseText)
+                $('span').html(err.responseText);
+            }
+        });
+    })
+
+
+    $('#btnsearch').click(() => {
+        let name = $('#directorName').val();
+        $.ajax({
+
+            type: "GET",
+            url: "https://localhost:44360/api/Director/" + name,
+            contentType: 'application/json',
+            success: function (response) {
+                console.log(response)
+                $('#directorName').val(response.directorName);
+                $('#age').val(response.age);
+                $('#awardCount').val(response.awardCount);
+            },
+            error: function (err) {
+                console.log(err.responseText)
+                $('span').html(err.responseText);
+            }
+
+        });
+    })
+
+</script>
+

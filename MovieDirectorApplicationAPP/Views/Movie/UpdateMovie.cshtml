@@ -1,0 +1,72 @@
+﻿<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+
+<a asp-controller="Movie" asp-action="Index">Back</a>
+
+<div class="container">
+    <table class="table table-bordered">
+
+        <tr>
+            <td>Movie ID</td>
+            <td>@Html.TextBox("movieId")</td>
+        </tr>
+        <tr>
+            <td>Movie Name</td>
+            <td>@Html.TextBox("movieName")</td>
+        </tr>
+        <tr>
+            <td>Collection</td>
+            <td>@Html.TextBox("boxOfficeCollection")</td>
+        </tr>
+        <tr>
+            <td>Ratings</td>
+            <td>@Html.TextBox("ratings")</td>
+        </tr>
+        <tr>
+            <td>Directors</td>
+            <td>@Html.TextArea("directorName")</td>
+        </tr>
+
+        <tr>
+            <td colspan="2">
+                <button class="btn btn-danger" id="btnedit">Update</button>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <span class="text-info"></span>
+            </td>
+        </tr>
+    </table>
+</div>
+
+
+<script type="text/javascript">
+    $('#btnedit').click(() => {
+        let MovieId = Number($('#movieId').val());
+        let MovieName = $('#movieName').val();
+        let BoxOfficeCollection = $('#boxOfficeCollection').val();
+        let Ratings = $('#ratings').val();
+        let item = { movieId: MovieId, movieName: MovieName, boxOfficeCollection: BoxOfficeCollection, ratings: Ratings };
+
+        console.log(item)
+
+        $.ajax({
+            type: "PUT",
+            url: "https://localhost:44360/api/Movie/" + MovieId,
+            data: JSON.stringify(item),
+            contentType: 'application/json',
+            success: function (response) {
+                console.log(response)
+                //  $('span').html(response);
+                window.location = "Index";
+            },
+            error: function (err) {
+                console.log(err.responseText)
+                $('span').html(err.responseText);
+            }
+        });
+    })
+</script>
+

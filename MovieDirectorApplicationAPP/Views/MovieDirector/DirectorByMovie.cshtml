@@ -1,0 +1,85 @@
+﻿<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+<a asp-controller="Director" asp-action="Index">Back</a>
+
+<div class="container">
+    <table class="table table-bordered">
+
+       
+        <tr>
+            <td>Movie Name</td>
+            <td>@Html.TextBox("movieName")</td>
+        </tr>
+        <tr>
+            <td colspan="2">
+               
+                <button class="btn btn-danger" id="btnsearch">Search</button>
+                
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <span class="text-info"></span>
+            </td>
+        </tr>
+    </table>
+</div>
+
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        Get API Data
+    </div>
+    <div class="panel-body">
+        <table class="table table-bordered" id="Table">
+            <tr>
+                <th>DirectorName</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>AwardCount</th>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $('#btnsearch').click(() => {
+        var name = $('#movieName').val();
+        manager.GetDirector(name);
+    })
+
+    var manager =
+    {
+        GetDirector: function (name) {
+            var obj = "";
+            var serviceurl = "https://localhost:44360/api/MovieDirector/movieName/" + name;
+            window.manager.GetAPI(serviceurl, onSuccess, onFailed);
+            function onSuccess(jsonData) {
+                debugger;
+                obj = jsonData;
+                $.each(jsonData, function (i, item) {
+                    var rows = "<tr>" +
+                        "<td>" + item.directorName + "</td>" +
+                        "<td>" + item.age + "</td>" +
+                        "<td>" + item.gender + "</td>" +
+                        "<td>" + item.awardCount + "</td>" + "</tr>";
+                    $('#Table').append(rows);
+                });
+            }
+            function onFailed(error) {
+                window.alert(error.statusText);
+            }
+            return obj;
+        },
+        GetAPI: function (serviceurl, successCallback, errorCallback) {
+            $.ajax({
+                type: "GET",
+                url: serviceurl,
+                dataType: "json",
+                success: successCallback,
+                error: errorCallback
+            });
+        }
+    }
+</script>

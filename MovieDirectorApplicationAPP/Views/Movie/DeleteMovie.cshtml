@@ -1,0 +1,51 @@
+﻿<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+
+<a asp-controller="Movie" asp-action="Index">Back</a>
+
+<div class="container">
+    <table class="table table-bordered">
+
+    
+        <tr>
+            <td>Movie Name</td>
+            <td>@Html.TextBox("movieName")</td>
+        </tr>
+    
+
+        <tr>
+            <td colspan="2">
+                <button class="btn btn-danger" id="btndelete">Delete</button>
+
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <span class="text-info"></span>
+            </td>
+        </tr>
+    </table>
+</div>
+
+
+
+<script type="text/javascript">
+    $('#btndelete').click(() => {
+        let name = $('#movieName').val();
+
+        $.ajax({
+            type: "DELETE",
+            url: "https://localhost:44360/api/Movie/" + name,
+            contentType: 'application/json',
+            success: function (response) {
+                alert("Movie Deleted")
+                window.location = "Index";
+            },
+            error: function (err) {
+                alert(err.responseText)
+                $('span').html(err.responseText);
+            }
+        })
+    })
+</script>

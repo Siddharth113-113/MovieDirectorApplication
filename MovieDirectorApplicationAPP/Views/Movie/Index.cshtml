@@ -1,0 +1,104 @@
+﻿@{ ViewData["Title"] = "Home Page"; }
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+<br>
+<br>
+@*<a asp-controller="Director" asp-action="Index">Director Details</a>
+<br />*@
+<a asp-controller="MovieDirector" asp-action="MovieByDirector">Get Movie Details By Director</a>
+<br />
+<a asp-controller="Movie" asp-action="AddMovie">Add Movie Details</a>
+<br />
+@*<a asp-controller="Movie" asp-action="UpdateMovie">Update Movie Details</a>
+<br />*@
+<a asp-controller="Movie" asp-action="DeleteMovie">Delete Movie Details</a>
+<br>
+<br>
+
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        Get API Data
+    </div>
+    <div class="panel-body">
+        <table class="table table-bordered" id="Table">
+            <tr>
+                <th>MovieId</th>
+                <th>MovieName</th>
+                <th>BoxOfficeCollection</th>
+                <th>Ratings</th>
+                <th>Directors</th>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        manager.GetAllMovies();
+    })
+
+    var manager =
+    {
+        GetAllMovies: function () {
+            var obj = "";
+            var serviceurl = "https://localhost:44360/api/Movie";
+            window.manager.GetAPI(serviceurl, onSuccess, onFailed);
+            function onSuccess(jsonData) {
+                debugger;
+                obj = jsonData;
+                $.each(jsonData, function (i, item) {
+                    var rows = "<tr>" +
+                        "<td>" + item.movieId + "</td>" +
+                        "<td>" + item.movieName + "</td>" +
+                        "<td>" + item.boxOfficeCollection + "</td>" +
+                        "<td>" + item.ratings + "</td>" +
+                        "<td>" + item.directorName + "</td>" + "</tr>";
+                    $('#Table').append(rows);
+                });
+            }
+            function onFailed(error) {
+                window.alert(error.statusText);
+            }
+            return obj;
+        },
+        GetAPI: function (serviceurl, successCallback, errorCallback) {
+            $.ajax({
+                type: "GET",
+                url: serviceurl,
+                dataType: "json",
+                success: successCallback,
+                error: errorCallback
+            });
+        }
+    }
+
+
+
+    $('#btnsearch').click(() => {
+        let Id = $('#movieId').val();
+        $.ajax({
+
+            type: "GET",
+            url: "https://localhost:44360/api/Movie/" + Id,
+            contentType: 'application/json',
+            success: function (response) {
+                console.log(response)
+                $('#movieName').val(response.movieName);
+                $('#boxOfficeCollection').val(response.boxOfficeCollection);
+                $('#ratings').val(response.ratings);
+                $('#directorName').val(response.directorName);
+            },
+            error: function (err) {
+                console.log(err.responseText)
+                $('span').html(err.responseText);
+            }
+
+        });
+    })
+
+
+    
+</script>

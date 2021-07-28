@@ -1,0 +1,73 @@
+﻿<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+<a asp-controller="Movie" asp-action="Index">Back</a>
+
+<div class="container">
+    <table class="table table-bordered">
+
+        
+        <tr>
+            <td>Movie Name</td>
+            <td>@Html.TextBox("movieName")</td>
+        </tr>
+        <tr>
+            <td>Collection</td>
+            <td>@Html.TextBox("boxOfficeCollection")</td>
+        </tr>
+        <tr>
+            <td>Ratings</td>
+            <td>@Html.TextBox("ratings")</td>
+        </tr>
+        <tr>
+            <td>Directors</td>
+            <td>@Html.TextArea("directorName")</td>
+        </tr>
+
+        <tr>
+            <td colspan="2">
+                <button class="btn btn-danger" id="btnadd">Add</button>
+
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <span class="text-info"></span>
+            </td>
+        </tr>
+    </table>
+</div>
+
+
+
+<script type="text/javascript">
+    $('#btnadd').click(() => {
+        var arr = $('#directorName').val();
+        var DirNm = arr.split(",");
+        let MovieName = $('#movieName').val();
+        let BoxOfficeCollection = $('#boxOfficeCollection').val();
+        let Ratings = $('#ratings').val();
+        let DirectorName = DirNm;
+
+
+        let item = { movieName: MovieName, boxOfficeCollection: BoxOfficeCollection, ratings: Ratings, directorName: DirectorName };
+        console.log(item)
+
+        $.ajax({
+            type: "POST",
+            url: "https://localhost:44360/api/Movie",
+            data: JSON.stringify(item),
+            contentType: 'application/json',
+            success: function (response) {
+                console.log(response)
+                $('span').html(response);
+                window.location = "Index";
+            },
+            error: function (err) {
+                console.log(err.responseText)
+                $('span').html(err.responseText);
+            }
+
+        });
+    })
+</script>

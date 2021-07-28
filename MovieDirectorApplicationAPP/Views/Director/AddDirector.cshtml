@@ -1,0 +1,90 @@
+﻿@{ ViewData["Title"] = "Home Page"; }
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+<a asp-controller="Director" asp-action="Index">Back</a>
+
+<div class="container">
+    <table class="table table-bordered">
+
+        <tr>
+            <td>Director Name</td>
+            <td>@Html.TextBox("directorName")</td>
+        </tr>
+        <tr>
+            <td>Age</td>
+            <td>@Html.TextBox("age")</td>
+        </tr>
+        <tr>
+            <td>Gender</td>
+            <td>@Html.DropDownList("gender", new List<SelectListItem> { new SelectListItem { Text = "Male" }, new SelectListItem { Text = "Female" } }, "Select One")</td>
+        </tr>
+        <tr>
+            <td>Awards</td>
+            <td>@Html.TextBox("awardCount")</td>
+        </tr>
+       
+
+        <tr>
+            <td colspan="2">
+                <button class="btn btn-danger" id="btnadd">Add</button>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <span class="text-info"></span>
+            </td>
+        </tr>
+    </table>
+</div>
+
+@*<div class="panel panel-primary">
+    <div class="panel-heading">
+        Get API Data
+    </div>
+    <div class="panel-body">
+        <table class="table table-bordered" id="Table">
+            <tr>
+                <th>DirectorName</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>Awards</th>
+            </tr>
+        </table>
+    </div>
+</div>
+*@
+<script type="text/javascript">
+    $('#btnadd').click(() => {
+
+        let DirectorName = $('#directorName').val();
+        let Age = $('#age').val();
+        let Gender = $('#gender').val();
+        let Awards = $('#awardCount').val();
+        
+
+
+        let item = { directorName: DirectorName, age: Age, gender: Gender, awardCount: Awards };
+        console.log(item)
+
+        $.ajax({
+            type: "POST",
+            url: "https://localhost:44360/api/Director",
+            data: JSON.stringify(item),
+            contentType: 'application/json',
+            success: function (response) {
+                console.log(response)
+                $('span').html(response);
+                window.location = "Index";
+            },
+            error: function (err) {
+                console.log(err.responseText)
+                $('span').html(err.responseText);
+            }
+
+        });
+    })
+
+</script>
+
